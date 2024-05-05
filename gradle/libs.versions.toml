@@ -1,0 +1,9 @@
+[versions]
+hibernate_version = "7.0.0.Alpha2"
+jakarta_servlet_api_version = "6.1.0-M2"
+
+[libraries]
+jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api", version.ref = "jakarta_servlet_api_version" }
+jakarta-transaction-api = { module = "jakarta.transaction:jakarta.transaction-api" }
+hibernate-core = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate_version" }
+hibernate-platform = { module = "org.hibernate.orm:hibernate-platform", version.ref = "hibernate_version" }

@@ -5,10 +5,10 @@ import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 
-@WebServlet(name = "HomePageController", urlPatterns = [""])
-class HomePageController : HttpServlet() {
+@WebServlet(name = "NewMatchPageController", urlPatterns = ["/new-match"])
+class NewMatchPageController : HttpServlet() {
 
     override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
-        request.getRequestDispatcher("/templates/index.html").forward(request, response)
+        request.getRequestDispatcher("/templates/new_match.html").forward(request, response)
     }
 }

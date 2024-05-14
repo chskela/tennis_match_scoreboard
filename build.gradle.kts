@@ -1,6 +1,8 @@
 plugins {
     kotlin("jvm") version "1.9.23"
     war
+    id("org.jetbrains.kotlin.plugin.jpa") version "2.0.0-RC3"
+    kotlin("plugin.noarg") version "1.9.24"
 }
 
 group = "com.chskela"
@@ -15,10 +17,10 @@ dependencies {
     compileOnly(libs.jakarta.servlet.api)
     // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
     implementation(libs.hibernate.core)
-    // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-platform
-    implementation(libs.hibernate.platform)
-    // https://mvnrepository.com/artifact/jakarta.transaction/jakarta.transaction-api
-    implementation(libs.jakarta.transaction.api)
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation(libs.postgresql)
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl
+    implementation(libs.slf4j.log4j12)
 
     testImplementation(kotlin("test"))
 }

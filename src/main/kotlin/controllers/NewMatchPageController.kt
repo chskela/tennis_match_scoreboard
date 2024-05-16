@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import models.dao.PlayerDao
-import services.NewMatchService
+import services.OngoingMatchesService
 
 @WebServlet(name = "NewMatchPageController", urlPatterns = ["/new-match"])
 class NewMatchPageController : HttpServlet() {
@@ -19,7 +19,6 @@ class NewMatchPageController : HttpServlet() {
         val playerName2 = request.getParameter("player2")
 
         val playerDao = PlayerDao()
-        val service = NewMatchService()
 
         val player1 = playerDao.findByName(playerName1).getOrElse {
             playerDao.save(playerName1).getOrThrow()
@@ -27,7 +26,7 @@ class NewMatchPageController : HttpServlet() {
         val player2 = playerDao.findByName(playerName2).getOrElse {
             playerDao.save(playerName2).getOrThrow()
         }
-        val matchId = service.createNewMatch(player1, player2)
+        val matchId = OngoingMatchesService.createNewMatch(player1, player2)
         response.sendRedirect("/match-score?uuid=$matchId")
     }
 }

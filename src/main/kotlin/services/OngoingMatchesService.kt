@@ -6,7 +6,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
 
-class NewMatchService {
+object OngoingMatchesService {
     fun createNewMatch(player1: Player, player2: Player): UUID {
         val uuid = UUID.randomUUID()
         currentMatch[uuid] = CurrentMatch(player1, player2)
@@ -14,8 +14,12 @@ class NewMatchService {
         return uuid
     }
 
-    companion object {
-        private val log: Logger = LoggerFactory.getLogger(this::class.java)
-        private val currentMatch: MutableMap<UUID, CurrentMatch> = mutableMapOf()
+    fun getCurrentMatch(uuid: UUID): Result<CurrentMatch> {
+        return runCatching {
+            currentMatch.getOrElse(uuid) { throw NoSuchElementException("No match with UUID $uuid found") }
+        }
     }
+
+    private val log: Logger = LoggerFactory.getLogger(this::class.java)
+    private val currentMatch: MutableMap<UUID, CurrentMatch> = mutableMapOf()
 }

@@ -13,53 +13,37 @@ class MatchScoreCalculationService {
         }
     }
 
-    private fun calculateMatchScoreFirstPlayer(currentMatch: CurrentMatch) =
-        when (val gameStateFirstPlayer = currentMatch.gameStateFirstPlayer) {
-            GameState.Zero -> currentMatch.copy(gameStateFirstPlayer = GameState.Fifteen)
-            GameState.Fifteen -> currentMatch.copy(gameStateFirstPlayer = GameState.Thirty)
-            GameState.Thirty -> currentMatch.copy(gameStateFirstPlayer = GameState.Forty(false))
-            is GameState.Forty -> when (currentMatch.gameStateSecondPlayer) {
-                GameState.Zero,
-                GameState.Fifteen,
-                GameState.Thirty -> currentMatch.copy(
-                    gameStateFirstPlayer = GameState.Zero,
-                    gameStateSecondPlayer = GameState.Zero
-                )
-                is GameState.Forty -> if (gameStateFirstPlayer.more) {
-                    currentMatch.copy(
-                        gameStateFirstPlayer = GameState.Zero,
-                        gameStateSecondPlayer = GameState.Zero
-                    )
-                } else if (currentMatch.gameStateSecondPlayer.more) {
-                    currentMatch.copy(gameStateSecondPlayer = GameState.Forty(false))
-                } else {
-                    currentMatch.copy(gameStateFirstPlayer = GameState.Forty(true))
-                }
-            }
-        }
+    private fun calculateMatchScoreFirstPlayer(currentMatch: CurrentMatch): CurrentMatch {
+        val (win, lose) = calculateBall(currentMatch.gameStateFirstPlayer, currentMatch.gameStateSecondPlayer)
+        return currentMatch.copy(gameStateFirstPlayer = win, gameStateSecondPlayer = lose)
+    }
 
-    private fun calculateMatchScoreSecondPlayer(currentMatch: CurrentMatch) =
-        when (val gameStateSecondPlayer = currentMatch.gameStateSecondPlayer) {
-            GameState.Zero -> currentMatch.copy(gameStateSecondPlayer = GameState.Fifteen)
-            GameState.Fifteen -> currentMatch.copy(gameStateSecondPlayer = GameState.Thirty)
-            GameState.Thirty -> currentMatch.copy(gameStateSecondPlayer = GameState.Forty(false))
-            is GameState.Forty -> when (currentMatch.gameStateFirstPlayer) {
+    private fun calculateMatchScoreSecondPlayer(currentMatch: CurrentMatch): CurrentMatch {
+        val (win, lose) = calculateBall(currentMatch.gameStateSecondPlayer, currentMatch.gameStateFirstPlayer)
+        return currentMatch.copy(gameStateFirstPlayer = lose, gameStateSecondPlayer = win)
+    }
+
+    private fun calculateBall(
+        winPlayerGameState: GameState,
+        losePlayerGameState: GameState
+    ): Pair<GameState, GameState> {
+        return when (winPlayerGameState) {
+            GameState.Zero -> GameState.Fifteen to losePlayerGameState
+            GameState.Fifteen -> GameState.Thirty to losePlayerGameState
+            GameState.Thirty -> GameState.Forty(false) to losePlayerGameState
+            is GameState.Forty -> when (losePlayerGameState) {
                 GameState.Zero,
                 GameState.Fifteen,
-                GameState.Thirty -> currentMatch.copy(
-                    gameStateFirstPlayer = GameState.Zero,
-                    gameStateSecondPlayer = GameState.Zero
-                )
-                is GameState.Forty -> if (gameStateSecondPlayer.more) {
-                    currentMatch.copy(
-                        gameStateFirstPlayer = GameState.Zero,
-                        gameStateSecondPlayer = GameState.Zero
-                    )
-                } else if (currentMatch.gameStateFirstPlayer.more) {
-                    currentMatch.copy(gameStateFirstPlayer = GameState.Forty(false))
+                GameState.Thirty -> GameState.Zero to GameState.Zero
+
+                is GameState.Forty -> if (winPlayerGameState.more) {
+                    GameState.Zero to GameState.Zero
+                } else if (losePlayerGameState.more) {
+                    winPlayerGameState to GameState.Forty(false)
                 } else {
-                    currentMatch.copy(gameStateSecondPlayer = GameState.Forty(true))
+                    GameState.Forty(true) to losePlayerGameState
                 }
             }
         }
+    }
 }

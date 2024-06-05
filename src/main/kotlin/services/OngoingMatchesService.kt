@@ -20,6 +20,11 @@ object OngoingMatchesService {
         }
     }
 
+    fun updateMatch(uuid: UUID, match: CurrentMatch) {
+        currentMatch[uuid] = match
+        log.info("Update match with UUID $uuid")
+    }
+
     private val log: Logger = LoggerFactory.getLogger(this::class.java)
     private val currentMatch: MutableMap<UUID, CurrentMatch> = mutableMapOf()
 }

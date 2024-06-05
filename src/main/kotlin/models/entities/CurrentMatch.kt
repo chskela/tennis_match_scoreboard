@@ -6,4 +6,7 @@ data class CurrentMatch(
 
     val gameStateFirstPlayer: GameState = GameState.Zero,
     val gameStateSecondPlayer: GameState = GameState.Zero,
+
+    val currentGames: Games= Games(0, 0),
+    val sets: List<Games> = emptyList(),
 )

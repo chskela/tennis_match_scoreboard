@@ -7,10 +7,21 @@ import models.entities.PlayerInOrder
 class MatchScoreCalculationService {
 
     fun calculateMatchScore(currentMatch: CurrentMatch, playerInOrder: PlayerInOrder): CurrentMatch {
-        return when (playerInOrder) {
-            PlayerInOrder.First -> calculateMatchScoreFirstPlayer(currentMatch)
-            PlayerInOrder.Second -> calculateMatchScoreSecondPlayer(currentMatch)
+        val newCurrentMatch =  when (playerInOrder) {
+            PlayerInOrder.First -> {
+                val candidate = calculateMatchScoreFirstPlayer(currentMatch)
+                if (candidate.gameStateFirstPlayer is GameState.Zero && candidate.gameStateSecondPlayer is GameState.Zero){
+                    candidate.copy(currentGames = candidate.currentGames.copy(first = candidate.currentGames.first + 1))
+                } else candidate
+            }
+            PlayerInOrder.Second -> {
+                val candidate = calculateMatchScoreSecondPlayer(currentMatch)
+                if (candidate.gameStateFirstPlayer is GameState.Zero && candidate.gameStateSecondPlayer is GameState.Zero){
+                    candidate.copy(currentGames = candidate.currentGames.copy(second = candidate.currentGames.second + 1))
+                } else candidate
+            }
         }
+        return newCurrentMatch
     }
 
     private fun calculateMatchScoreFirstPlayer(currentMatch: CurrentMatch): CurrentMatch {
@@ -30,20 +41,15 @@ class MatchScoreCalculationService {
         return when (winPlayerGameState) {
             GameState.Zero -> GameState.Fifteen to losePlayerGameState
             GameState.Fifteen -> GameState.Thirty to losePlayerGameState
-            GameState.Thirty -> GameState.Forty(false) to losePlayerGameState
-            is GameState.Forty -> when (losePlayerGameState) {
+            GameState.Thirty -> GameState.Forty to losePlayerGameState
+            GameState.Forty -> when (losePlayerGameState) {
                 GameState.Zero,
                 GameState.Fifteen,
                 GameState.Thirty -> GameState.Zero to GameState.Zero
-
-                is GameState.Forty -> if (winPlayerGameState.more) {
-                    GameState.Zero to GameState.Zero
-                } else if (losePlayerGameState.more) {
-                    winPlayerGameState to GameState.Forty(false)
-                } else {
-                    GameState.Forty(true) to losePlayerGameState
-                }
+                GameState.Forty -> GameState.Advantage to losePlayerGameState
+                GameState.Advantage -> GameState.Forty to GameState.Forty
             }
+            GameState.Advantage -> GameState.Zero to GameState.Zero
         }
     }
 }

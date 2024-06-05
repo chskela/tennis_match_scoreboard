@@ -79,8 +79,8 @@ class MatchScoreCalculationServiceTest {
         currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
 
         //then
-        assertEquals(GameState.Forty(true), currentMatch.gameStateFirstPlayer)
-        assertEquals(GameState.Forty(false), currentMatch.gameStateSecondPlayer)
+        assertEquals(GameState.Advantage, currentMatch.gameStateFirstPlayer)
+        assertEquals(GameState.Forty, currentMatch.gameStateSecondPlayer)
     }
 
     @Test

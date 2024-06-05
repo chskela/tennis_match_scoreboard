@@ -1,11 +1,15 @@
 [versions]
 hibernate_version = "6.5.0.Final"
 jakarta_servlet_api_version = "6.1.0-M2"
+jsp_jstl_version = "3.0.0"
+jstl_api_version = "3.0.0"
 slf4j_log4j12_version = "3.0.0-beta2"
 postgresql_version = "42.7.3"
 
 [libraries]
 jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api", version.ref = "jakarta_servlet_api_version" }
+jstl-api = { module = "jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api", version.ref = "jstl_api_version" }
+jsp-jstl = { module = "org.glassfish.web:jakarta.servlet.jsp.jstl", version.ref = "jsp_jstl_version" }
 hibernate-core = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate_version" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql_version" }
 slf4j-log4j12 = { module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "slf4j_log4j12_version" }

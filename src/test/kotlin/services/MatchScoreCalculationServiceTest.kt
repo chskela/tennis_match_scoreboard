@@ -1,9 +1,6 @@
 package services
 
-import models.entities.CurrentMatch
-import models.entities.GameState
-import models.entities.Player
-import models.entities.PlayerInOrder
+import models.entities.*
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Assertions.*
@@ -98,5 +95,40 @@ class MatchScoreCalculationServiceTest {
         //then
         assertEquals(GameState.Zero, currentMatch.gameStateFirstPlayer)
         assertEquals(GameState.Zero, currentMatch.gameStateSecondPlayer)
+    }
+
+
+    @Test
+    fun `the first player wins one set`() {
+        //when
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+        currentMatch = service.calculateMatchScore(currentMatch, PlayerInOrder.First)
+
+        //then
+        assertEquals(Games(6,0), currentMatch.sets[0])
+        assertEquals(Games(0,0), currentMatch.currentGames)
     }
 }

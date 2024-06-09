@@ -9,4 +9,6 @@ data class CurrentMatch(
 
     val currentGames: Games= Games(0, 0),
     val sets: List<Games> = emptyList(),
+
+    val endMatch: Boolean= false
 )

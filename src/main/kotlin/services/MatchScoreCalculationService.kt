@@ -67,7 +67,8 @@ class MatchScoreCalculationService {
                 || (secondPlayerGame > firstPlayerGame + 1 && secondPlayerGame > 5))
     }
 
-    private fun checkEndMatch(currentMatch: CurrentMatch): Boolean = currentMatch.sets.size == 3
+    private fun checkEndMatch(currentMatch: CurrentMatch): Boolean =
+        totalWinsInSets(currentMatch, PlayerInOrder.First) == 3 || totalWinsInSets(currentMatch, PlayerInOrder.Second) == 3
 
     private fun updatedMatchIfEndMatch(updatedCurrentMatch: CurrentMatch) = if (checkEndMatch(updatedCurrentMatch)) {
         log.info("updatedMatchIfEndMatch: End match ${updatedCurrentMatch.sets}")
@@ -80,6 +81,14 @@ class MatchScoreCalculationService {
         log.info("updatedMatchIfEndSet: End set ${newCurrentMatch.currentGames}")
         updatedMatchIfEndMatch(updatedCurrentMatch)
     } else newCurrentMatch
+
+    private fun totalWinsInSets(currentMatch: CurrentMatch, playerInOrder: PlayerInOrder): Int = currentMatch
+        .sets.fold(0) { acc, set ->
+            acc + when (playerInOrder) {
+                PlayerInOrder.First -> if (set.first > set.second) 1 else 0
+                PlayerInOrder.Second -> if (set.second > set.first) 1 else 0
+            }
+        }
 
     private val log: Logger = LoggerFactory.getLogger(this::class.java)
 }

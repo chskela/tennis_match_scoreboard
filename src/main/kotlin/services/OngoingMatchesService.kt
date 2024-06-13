@@ -25,6 +25,11 @@ object OngoingMatchesService {
         log.info("Update match with UUID $uuid")
     }
 
+    fun deleteMatch(uuid: UUID): CurrentMatch? {
+        log.info("Remove match with UUID $uuid")
+        return currentMatch.remove(uuid)
+    }
+
     private val log: Logger = LoggerFactory.getLogger(this::class.java)
     private val currentMatch: MutableMap<UUID, CurrentMatch> = mutableMapOf()
 }

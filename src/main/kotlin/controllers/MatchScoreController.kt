@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import models.entities.PlayerInOrder
+import services.FinishedMatchesPersistenceService
 import services.MatchScoreCalculationService
 import services.OngoingMatchesService
 import java.util.*
@@ -27,7 +28,15 @@ class MatchScoreController : HttpServlet() {
         val winnerPoint = request.getParameter("winner")
         val updatedMatch = matchScoreCalculationService.calculateMatchScore(currentMatch, handleInput(winnerPoint))
         OngoingMatchesService.updateMatch(uuid, updatedMatch)
-        response.sendRedirect("/match-score?uuid=$uuid")
+        if (updatedMatch.endMatch) {
+            FinishedMatchesPersistenceService().saveFinishedMatch(updatedMatch)
+            OngoingMatchesService.deleteMatch(uuid)
+            request.setAttribute("match", updatedMatch)
+            request.setAttribute("uuid", uuid)
+            request.getRequestDispatcher("/templates/match-score.jsp").forward(request, response)
+        } else  {
+            response.sendRedirect("/match-score?uuid=$uuid")
+        }
     }
 
     private fun handleInput(winnerPoint: String): PlayerInOrder = when (winnerPoint) {

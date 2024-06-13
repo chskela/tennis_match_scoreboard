@@ -68,11 +68,14 @@ class MatchScoreCalculationService {
     }
 
     private fun checkEndMatch(currentMatch: CurrentMatch): Boolean =
-        totalWinsInSets(currentMatch, PlayerInOrder.First) == 3 || totalWinsInSets(currentMatch, PlayerInOrder.Second) == 3
+        totalWinsInSets(currentMatch, PlayerInOrder.First) == 2 || totalWinsInSets(currentMatch, PlayerInOrder.Second) == 2
 
     private fun updatedMatchIfEndMatch(updatedCurrentMatch: CurrentMatch) = if (checkEndMatch(updatedCurrentMatch)) {
         log.info("updatedMatchIfEndMatch: End match ${updatedCurrentMatch.sets}")
-        updatedCurrentMatch.copy(endMatch = true)
+        val winner = if  (totalWinsInSets(updatedCurrentMatch, PlayerInOrder.First) == 2)  {
+            updatedCurrentMatch.player1
+        } else updatedCurrentMatch.player2
+        updatedCurrentMatch.copy(endMatch = true, winner  = winner)
     } else updatedCurrentMatch
 
     private fun updatedMatchIfEndSet(newCurrentMatch: CurrentMatch) = if (checkWonGame(newCurrentMatch)) {

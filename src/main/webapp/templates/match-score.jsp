@@ -108,16 +108,23 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="player">
-            <form  method="POST" action="/match-score?uuid=${uuid}">
-                <input type="hidden" name="winner" value="First">
-                <button class="points cell" type="submit">Игрок ${match.player1.name} выиграл очко</button>
-            </form>
-            <form  method="POST" action="/match-score?uuid=${uuid}">
-                <input type="hidden" name="winner" value="Second">
-                <button class="points cell" type="submit">Игрок ${match.player2.name} выиграл очко</button>
-            </form>
-        </div>
+        <c:choose>
+            <c:when test="${!match.endMatch}">
+                <div class="player">
+                    <form  method="POST" action="/match-score?uuid=${uuid}">
+                        <input type="hidden" name="winner" value="First">
+                        <button class="points cell" type="submit">Игрок ${match.player1.name} выиграл очко</button>
+                    </form>
+                    <form  method="POST" action="/match-score?uuid=${uuid}">
+                        <input type="hidden" name="winner" value="Second">
+                        <button class="points cell" type="submit">Игрок ${match.player2.name} выиграл очко</button>
+                    </form>
+                </div>
+            </c:when>
+            <c:otherwise>
+              <p> Победил игрок ${match.winner.name}!!!</p>
+            </c:otherwise>
+        </c:choose>
     </div>
 </body>
 </html>

@@ -11,7 +11,7 @@ import services.OngoingMatchesService
 class NewMatchPageController : HttpServlet() {
 
     override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
-        request.getRequestDispatcher("/templates/new_match.html").forward(request, response)
+        request.getRequestDispatcher("/templates/new-match.html").forward(request, response)
     }
 
     override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
@@ -20,11 +20,11 @@ class NewMatchPageController : HttpServlet() {
 
         val playerDao = PlayerDao()
 
-        val player1 = playerDao.findByName(playerName1).getOrElse {
-            playerDao.save(playerName1).getOrThrow()
+        val player1 = playerDao.save(playerName1).getOrElse {
+            playerDao.findByName(playerName1).getOrThrow()
         }
-        val player2 = playerDao.findByName(playerName2).getOrElse {
-            playerDao.save(playerName2).getOrThrow()
+        val player2 = playerDao.save(playerName2).getOrElse {
+            playerDao.findByName(playerName2).getOrThrow()
         }
         val matchId = OngoingMatchesService.createNewMatch(player1, player2)
         response.sendRedirect("/match-score?uuid=$matchId")

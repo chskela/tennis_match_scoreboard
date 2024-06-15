@@ -32,5 +32,5 @@ object OngoingMatchesService {
     }
 
     private val log: Logger = LoggerFactory.getLogger(this::class.java)
-    private val currentMatch: MutableMap<UUID, CurrentMatch> = mutableMapOf()
+    private val currentMatch: ConcurrentHashMap<UUID, CurrentMatch> = ConcurrentHashMap()
 }

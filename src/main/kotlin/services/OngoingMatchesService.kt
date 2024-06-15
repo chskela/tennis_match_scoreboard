@@ -5,6 +5,7 @@ import models.entities.Player
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 object OngoingMatchesService {
     fun createNewMatch(player1: Player, player2: Player): UUID {

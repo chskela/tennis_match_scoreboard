@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Табло теннисного матча</title>
+    <link href="../css/styles.css" rel="stylesheet">
 </head>
 <body>
-<div>
-    <h2>Введите имена игроков</h2>
-    <form action="/new-match" method="post">
-        <input name="player1" placeholder="Имя игрока 1" required type="text">
-        <input name="player2" placeholder="Имя игрока 2" required type="text">
-        <button type="submit">начать</button>
+<div class="scoreboard new-match">
+    <div class="header">
+        <div class="cell">
+            <h2>Введите имена игроков</h2>
+        </div>
+    </div>
+    <div class="buttons">
+        <div class="button"><a href="/matches">Завершенные матчи</a></div>
+        <div class="button"><a href="/">Домой</a></div>
+    </div>
+    <form action="/new-match" class="players" method="post">
+        <input class="player button" name="player1" placeholder="Имя игрока 1" required type="text">
+        <input class="player button" name="player2" placeholder="Имя игрока 2" required type="text">
+        <button class="button" type="submit">Начать</button>
     </form>
 </div>
 </body>

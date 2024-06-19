@@ -20,10 +20,10 @@
                     </div>
                 </div>
                 <div class="header-table">
-                    <div class=""></div>
-                    <div class="cell">Points</div>
-                    <div class="cell">Games</div>
-                    <div class="cell">Sets</div>
+                    <div class="cell">Игроки</div>
+                    <div class="cell">Очки</div>
+                    <div class="cell">Геймы</div>
+                    <div class="cell">Сеты</div>
                 </div>
 
                 <div class="player-1">
